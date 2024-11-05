@@ -1159,14 +1159,31 @@
 
   const messageContainer = document.getElementById("messageContainer");
 
-  // Check if the user data exists and matches the input
-  if (storedUser && storedUser.email === email && storedUser.password === password) {
-    messageContainer.innerHTML = "Login successful!";
-    messageContainer.style.color = "green";
-    // Redirect the user to the dashboard or another page
-    // window.location.href = "/dashboard.html";
+  // Email format validation
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    messageContainer.innerHTML = "Please enter a valid email address!";
+    messageContainer.style.color = "red";
+    return;
+  }
+
+  // Check if user exists
+  if (storedUser && storedUser.email === email) {
+    // Check if password matches
+    if (storedUser.password === password) {
+      // messageContainer.innerHTML = "Login successful!";
+      // messageContainer.style.color = "green";
+      // Redirect the user to the dashboard or another page
+      window.location.href = "../dashboard/index.html";
+    } else {
+      messageContainer.innerHTML = "Incorrect password!";
+      messageContainer.style.color = "red";
+    }
+  } else if (storedUser) {
+    messageContainer.innerHTML = "User already exists with a different email!";
+    messageContainer.style.color = "red";
   } else {
-    messageContainer.innerHTML = "Incorrect email or password!";
+    messageContainer.innerHTML = "No account found. Please sign up first.";
     messageContainer.style.color = "red";
   }
 });
