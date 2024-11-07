@@ -3921,20 +3921,17 @@
                         </div>
                       </div>
 
+
+
+
+                      <!-- Form for Campaign Submition -->
                       <!-- Unique Modal Structure -->
                       <div id="uniqueModal" class="unique-modal hidden">
                         <div class="unique-modal-content">
-                          <span class="unique-close" id="closeUniqueModal"
-                            >&times;</span
-                          >
+                          <span class="unique-close" id="closeUniqueModal">&times;</span>
                           <h2 class="modal-title">Create New Campaign</h2>
-                          <form
-                            id="uniqueCampaignForm"
-                            enctype="multipart/form-data"
-                          >
-                            <label for="uniqueCampaignName"
-                              >Campaign Name:</label
-                            >
+                          <form id="uniqueCampaignForm" enctype="multipart/form-data">
+                            <label for="uniqueCampaignName">Campaign Name:</label>
                             <input
                               type="text"
                               id="uniqueCampaignName"
@@ -3952,34 +3949,42 @@
                             ></textarea>
 
                             <label for="uniqueLocation">Select Location:</label>
-                            <select
-                              id="uniqueLocation"
-                              name="uniqueLocation"
-                              class="input-field"
-                              required
-                            >
-                              <option value="NONE">
-                                --- Select Location ---
-                              </option>
-                              <!-- Options will be dynamically added here -->
+                            <select id="uniqueLocation" name="uniqueLocation" class="input-field" required>
+                              <option value="NONE">--- Select Location ---</option>
+                              <option value="Faisalabad">Faisalabad</option>
+                              <option value="Hyderabad">Hyderabad</option>
+                              <option value="Islamabad">Islamabad</option>
+                              <option value="Karachi">Karachi</option>
+                              <option value="Lahore">Lahore</option>
+                              <option value="Mehrabpur">Mehrabpur</option>
+                              <option value="Multan">Multan</option>
+                              <option value="Sukkur">Sukkur</option>
                             </select>
 
-                            <label for="uniqueVideoUpload">Upload Video:</label>
+                            <label for="uniqueVideoUrl">YouTube Video URL:</label>
                             <input
-                              type="file"
-                              id="uniqueVideoUpload"
-                              name="uniqueVideoUpload"
-                              accept="video/*"
+                              type="url"
+                              id="uniqueVideoUrl"
+                              name="uniqueVideoUrl"
                               class="input-field"
+                              placeholder="https://www.youtube.com/advertisingvideo=example"
                               required
                             />
 
-                            <button type="submit" class="submit-button">
-                              Create Campaign
-                            </button>
+                            <button type="submit" class="submit-button">Create Campaign</button>
                           </form>
                         </div>
                       </div>
+
+                      <!-- Notification div for the admin -->
+                      <div id="adminNotification" class="notification hidden">
+                        A new campaign has been created!
+                      </div>
+
+
+
+
+
 
                       <style>
                         .unique-modal {
@@ -4026,7 +4031,8 @@
                         }
 
                         .submit-button {
-                          background-color: #4caf50; /* Green background */
+
+                          background-color: rgb(245, 61, 63); /* Green background */
                           color: white; /* White text */
                           padding: 10px 15px; /* Button padding */
                           border: none; /* Remove default border */
@@ -4057,7 +4063,12 @@
                           transform: scale(1); /* Scale to original size */
                         }
                       </style>
-                      <script>
+
+
+
+
+
+                       <script>
                         function getCookie(name) {
                           const value = `; ${document.cookie}`;
                           const parts = value.split(`; ${name}=`);
@@ -4238,6 +4249,14 @@
                           }
                         );
                       </script>
+
+
+
+
+
+
+
+
                     </div>
                   </div>
                 </div>
@@ -4306,15 +4325,24 @@
                                 </div>
                               </div>
                               <div class="flex">
-                                <a
+                                <div class="">
+                                  <div
+                                    type="button"
+                                    class="flex items-center justify-center font-button font-bold w-fit bg-primary-500 dark:border-primary-500 hover:shadow-primaryFullHover focus:shadow-primaryFullHover whitespace-nowrap btn-base"
+                                    id="create_campaign"
+                                  >
+                                    Create campaign
+                                  </div>
+                                </div>
+                                <!-- <a
                                   href="/location/00e18045-dea8-4d17-8d82-cd6ffdcc5272"
                                   ><button
                                     type="button"
                                     class="flex items-center justify-center font-button font-bold w-fit text-primary-500 bg-white border-primary-500 hover:shadow-primaryOutlineHover focus:shadow-primaryOutlineHover btn-base small"
                                   >
                                     See the screen
-                                  </button></a
-                                >
+                                  </button>
+                                  </a> -->
                               </div>
                             </div>
                           </div>
@@ -4387,16 +4415,15 @@
                             >
                               <div class="">
                                 <div class="text-white text-2xl font-bold">
-                                  NASDAQ Tower
+                                  Sukkur
                                 </div>
                                 <div class="text-white text-base font-bold">
-                                  1480, Broadway, Manhattan, New York, New York
-                                  County, New York, United States, 10036
+                                  Sukkur Barrage is the lifeline of our city. Here, brands emerge, and legacies
                                 </div>
                               </div>
                               <div class="flex">
                                 <a
-                                  href="/location/07de301e-e4d4-4171-afac-5362b753d950"
+                                  href=""
                                   ><button
                                     type="button"
                                     class="flex items-center justify-center font-button font-bold w-fit text-primary-500 bg-white border-primary-500 hover:shadow-primaryOutlineHover focus:shadow-primaryOutlineHover btn-base small"
@@ -5458,7 +5485,7 @@
                 </div>
               </div>
 
-              <div id="sliderTopSeller" class="pb-7">
+              <!-- <div id="sliderTopSeller" class="pb-7">
                 <h3
                   class="pb-6 text-lg font-bold text-black dark:text-white lg:text-xl pl-7"
                 >
@@ -7588,7 +7615,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="footer"></div>
@@ -8498,10 +8525,12 @@
                       </div>
                     </div>
                   </div>
+
+
                   <div class="text-center max-lg:text-left">
-                    <div class="font-bold text-black dark:text-white name">
-                      <span>Prena</span
-                      ><span class="pl-2 lg:hidden">Prena</span>
+                    <div class="font-bold text-black dark:text-black name">
+                      <span>Razaque</span
+                      ><span class="pl-2">Goraya</span>
                     </div>
                     <a
                       class="text-sm font-semibold underline text-primary-500"
