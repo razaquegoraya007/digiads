@@ -3932,21 +3932,10 @@
                           <h2 class="modal-title">Create New Campaign</h2>
                           <form id="uniqueCampaignForm" enctype="multipart/form-data">
                             <label for="uniqueCampaignName">Campaign Name:</label>
-                            <input
-                              type="text"
-                              id="uniqueCampaignName"
-                              name="uniqueCampaignName"
-                              class="input-field"
-                              required
-                            />
+                            <input type="text" id="uniqueCampaignName" name="uniqueCampaignName" class="input-field" required />
 
                             <label for="uniqueDescription">Description:</label>
-                            <textarea
-                              id="uniqueDescription"
-                              name="uniqueDescription"
-                              class="input-field"
-                              required
-                            ></textarea>
+                            <textarea id="uniqueDescription" name="uniqueDescription" class="input-field" required></textarea>
 
                             <label for="uniqueLocation">Select Location:</label>
                             <select id="uniqueLocation" name="uniqueLocation" class="input-field" required>
@@ -3961,15 +3950,27 @@
                               <option value="Sukkur">Sukkur</option>
                             </select>
 
-                            <label for="uniqueVideoUrl">YouTube Video URL:</label>
-                            <input
-                              type="url"
-                              id="uniqueVideoUrl"
-                              name="uniqueVideoUrl"
-                              class="input-field"
-                              placeholder="https://www.youtube.com/advertisingvideo=example"
-                              required
-                            />
+                            <label for="videoOption">Choose Video Option:</label>
+                            <select id="videoOption" name="videoOption" class="input-field" required>
+                              <option value="url">YouTube Video URL</option>
+                              <option value="upload">Upload Video File</option>
+                            </select>
+
+                            <div id="videoUrlContainer">
+                              <label for="uniqueVideoUrl">YouTube Video URL:</label>
+                              <input
+                                type="url"
+                                id="uniqueVideoUrl"
+                                name="uniqueVideoUrl"
+                                class="input-field"
+                                placeholder="https://www.youtube.com/advertisingvideo=example"
+                              />
+                            </div>
+
+                            <div id="videoUploadContainer" class="hidden">
+                              <label for="uniqueVideoFile">Upload Video File:</label>
+                              <input type="file" id="uniqueVideoFile" name="uniqueVideoFile" class="input-field" accept="video/*" />
+                            </div>
 
                             <button type="submit" class="submit-button">Create Campaign</button>
                           </form>
@@ -3977,9 +3978,96 @@
                       </div>
 
                       <!-- Notification div for the admin -->
-                      <div id="adminNotification" class="notification hidden">
-                        A new campaign has been created!
-                      </div>
+                      <div id="adminNotification" class="notification hidden"></div>
+
+
+                      <script>
+                        // Wait for the DOM to fully load
+document.addEventListener("DOMContentLoaded", function() {
+  const videoOption = document.getElementById('videoOption');
+  const videoUrlContainer = document.getElementById('videoUrlContainer');
+  const videoUploadContainer = document.getElementById('videoUploadContainer');
+
+  // Show or hide inputs based on video option selection
+  videoOption.addEventListener('change', function() {
+    if (videoOption.value === 'url') {
+      videoUrlContainer.classList.remove('hidden');
+      videoUploadContainer.classList.add('hidden');
+    } else {
+      videoUrlContainer.classList.add('hidden');
+      videoUploadContainer.classList.remove('hidden');
+    }
+  });
+
+  // Function to show notification
+  function showNotification(message, isError = false) {
+    const adminNotification = document.getElementById('adminNotification');
+    adminNotification.textContent = message;
+    adminNotification.classList.remove('hidden');
+    adminNotification.classList.add('show');
+
+    // Add an error class if it's an error message
+    if (isError) {
+      adminNotification.classList.add('error');
+    } else {
+      adminNotification.classList.remove('error');
+    }
+
+    // Hide the notification after 5 seconds
+    setTimeout(() => {
+      adminNotification.classList.remove('show');
+    }, 5000);
+  }
+
+  document.getElementById('uniqueCampaignForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Collect form data
+    const campaignName = document.getElementById('uniqueCampaignName').value;
+    const description = document.getElementById('uniqueDescription').value;
+    const location = document.getElementById('uniqueLocation').value;
+    const selectedVideoOption = videoOption.value;
+    let videoData;
+
+    // Check which video option was selected and prepare data accordingly
+    if (selectedVideoOption === 'url') {
+      videoData = { type: 'url', value: document.getElementById('uniqueVideoUrl').value };
+    } else {
+      const videoFile = document.getElementById('uniqueVideoFile').files[0];
+      videoData = { type: 'file', value: videoFile };
+    }
+
+    // Prepare the form data for sending
+    const formData = new FormData();
+    formData.append('uniqueCampaignName', campaignName);
+    formData.append('uniqueDescription', description);
+    formData.append('uniqueLocation', location);
+    formData.append('videoType', videoData.type);
+
+    if (videoData.type === 'url') {
+      formData.append('videoUrl', videoData.value);
+    } else if (videoData.type === 'file') {
+      formData.append('videoFile', videoData.value);
+    }
+
+    // Send the form data to the backend
+    fetch('http://localhost:3000/api/create-campaign', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      showNotification('A new campaign has been created!');
+      console.log("Success:", data);
+    })
+    .catch(error => {
+      showNotification('An error occurred while creating the campaign.', true);
+      console.error("Error:", error);
+    });
+  });
+});
+
+                      </script>
 
 
 
@@ -3987,6 +4075,7 @@
 
 
                       <style>
+
                         .unique-modal {
                           display: flex;
                           justify-content: center;
@@ -4004,6 +4093,36 @@
                             0.7
                           ); /* Darker semi-transparent background */
                         }
+
+                        /* Notification styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #28a745;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.notification.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.notification.error {
+  background-color: #dc3545;
+}
+
+/* Hidden class for elements */
+.hidden {
+  display: none;
+}
+
 
                         .unique-modal-content {
                           background-color: #fefefe; /* Light background color */
