@@ -5,178 +5,230 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <!-- <link rel="stylesheet" href="admin.css"> -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+
   <style>
     /* General Reset */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
-  }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+    }
 
-  /* Body Styling */
-  body {
-    background-color: #f4f4f9;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    padding: 20px;
-  }
+    /* Body Styling */
+    body {
+      background-color: #f4f4f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-  /* Header Styling */
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #222;
-  }
+    /* Header Styling */
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #222;
+    }
 
-  .dashboard-container {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 1200px;
-    padding: 20px;
-    overflow-x: auto;
-  }
+    .dashboard-container {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 1200px;
+      padding: 20px;
+      overflow-x: auto;
+    }
 
-  /* Table Styling */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
+    /* Table Styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
 
-  th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
 
-  th {
-    background-color: #007bff;
-    color: #fff;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-  }
+    th {
+      background-color: #007bff;
+      color: #fff;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
 
-  tr:hover {
-    background-color: #f1f1f1;
-  }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
 
-  td {
-    font-size: 0.9rem;
-    vertical-align: middle;
-  }
+    td {
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
 
-  td video {
-    width: 100%;
-    max-width: 200px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
+    td video {
+      width: 100%;
+      max-width: 200px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
-  td a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: 500;
-  }
+    td a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-  td a:hover {
-    text-decoration: underline;
-  }
+    td a:hover {
+      text-decoration: underline;
+    }
 
-  /* Action Buttons */
-  .action-buttons {
-    display: flex;
-    gap: 10px;
-  }
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
 
-  .accept-btn, .decline-btn, .convert-btn {
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.8rem;
-    transition: background-color 0.3s;
-  }
+    .accept-btn, .decline-btn, .convert-btn {
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.8rem;
+      transition: background-color 0.3s;
+    }
 
-  .accept-btn {
-    background-color: #28a745;
-    color: #fff;
-  }
+    .accept-btn {
+      background-color: #28a745;
+      color: #fff;
+    }
 
-  .accept-btn:hover {
-    background-color: #218838;
-  }
+    .accept-btn:hover {
+      background-color: #218838;
+    }
 
-  .decline-btn {
-    background-color: #dc3545;
-    color: #fff;
-  }
+    .decline-btn {
+      background-color: #dc3545;
+      color: #fff;
+    }
 
-  .decline-btn:hover {
-    background-color: #c82333;
-  }
+    .decline-btn:hover {
+      background-color: #c82333;
+    }
 
-  .convert-btn {
-    background-color: #ffc107;
-    color: #fff;
-  }
+    .convert-btn {
+      background-color: #ffc107;
+      color: #fff;
+    }
 
-  .convert-btn:hover {
-    background-color: #e0a800;
-  }
+    .convert-btn:hover {
+      background-color: #e0a800;
+    }
 
-  /* Converted URL Styling */
-  .converted-url {
-    margin-top: 10px;
-    font-size: 0.85rem;
-    color: #007bff;
-  }
+    /* Converted URL Styling */
+    .converted-url {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #007bff;
+    }
 
-  /* Links */
-  a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: 500;
-  }
+    /* Links */
+    a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-  a:hover {
-    text-decoration: underline;
-  }
+    a:hover {
+      text-decoration: underline;
+    }
 
-  /* Header with Refresh Button */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
+    /* Header with Refresh Button */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-  .refresh-btn {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s;
-    font-size: 0.85rem;
-  }
+    .refresh-btn {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.3s;
+      font-size: 0.85rem;
+    }
 
-  .refresh-btn:hover {
-    background-color: #0056b3;
-  }
+    .refresh-btn:hover {
+      background-color: #0056b3;
+    }
 
+    /* Calendar Styling */
+    #calendar {
+      margin-top: 30px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+    }
+
+    .fc-toolbar-title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .fc-button {
+      background-color: #007bff;
+      border: none;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .fc-button:hover {
+      background-color: #0056b3;
+    }
+
+    .fc-button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .fc-daygrid-day {
+      border: 1px solid #eee;
+    }
+
+    .fc-event {
+      background-color: #007bff;
+      border: none;
+      color: #fff;
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-size: 0.75rem;
+    }
   </style>
+
 </head>
+
 <body>
   <div class="dashboard-container">
     <div class="header">
@@ -196,8 +248,17 @@
       </thead>
       <tbody>
         <!-- Campaign data will be dynamically added here -->
+        <tr>
+          <td colspan="6" class="no-data">Loading campaigns...</td>
+        </tr>
       </tbody>
     </table>
+
+    <!-- FullCalendar Container -->
+    <div class="calendar-section">
+      <h2>Campaign Time Slots</h2>
+      <div id="calendar"></div>
+    </div>
   </div>
 
   <script>
@@ -212,6 +273,13 @@
           const tableBody = document.getElementById('campaignTable').querySelector('tbody');
           tableBody.innerHTML = ''; // Clear existing data
 
+          if (campaigns.length === 0) {
+            // Show message when no campaigns are found
+            tableBody.innerHTML = '<tr><td colspan="6" class="no-data">No campaigns available.</td></tr>';
+            return;
+          }
+
+          // Populate table with campaign data
           campaigns.forEach((campaign, index) => {
             const row = document.createElement('tr');
 
@@ -244,10 +312,42 @@
             `;
             tableBody.appendChild(row);
           });
+
+          // Render events on the calendar
+          renderCalendarEvents();
         })
         .catch(error => {
           console.error('Error fetching campaign data:', error);
         });
+    }
+
+    // Function to render events on the calendar
+    function renderCalendarEvents() {debugger
+      const calendarEl = document.getElementById('calendar');
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'timeGridWeek',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'timeGridDay,timeGridWeek'
+        },
+        events: campaigns.map(campaign => {
+          const cmp = JSON.parse(campaign.timeSlots)[0]
+          return {
+            title: cmp.title,
+            start: cmp.start, // Adjust to the correct start time property
+            end: cmp.end, // Adjust to the correct end time property
+            description: "",
+          };
+        }),
+        eventContent: function(info) {
+          return {
+            html: `<div class="event-title">${info.event.title}</div><div class="event-description">${info.event.extendedProps.description}</div>`
+          };
+        }
+      });
+
+      calendar.render();
     }
 
     // Function to convert the video and display the URL
@@ -298,4 +398,7 @@
     document.addEventListener('DOMContentLoaded', loadCampaignData);
   </script>
 </body>
+
+
+
 </html>
